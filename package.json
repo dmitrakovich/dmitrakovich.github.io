@@ -4,7 +4,8 @@
   "description": "my resume on github",
   "main": "index.html",
   "scripts": {
-    "test": "echo 1"
+    "test": "echo 1",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -22,5 +23,9 @@
   "homepage": "https://github.com/default-089/default-089.github.io#readme",
   "dependencies": {
     "jquery": "^3.4.1"
+  },
+  "devDependencies": {
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
   }
 }

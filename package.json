@@ -1,0 +1,26 @@
+{
+  "name": "resume",
+  "version": "0.2.0",
+  "description": "my resume on github",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/default-089/default-089.github.io.git"
+  },
+  "keywords": [
+    "resume",
+    "git"
+  ],
+  "author": "Andrey Dmitrakovich",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/default-089/default-089.github.io/issues"
+  },
+  "homepage": "https://github.com/default-089/default-089.github.io#readme",
+  "dependencies": {
+    "jquery": "^3.4.1"
+  }
+}

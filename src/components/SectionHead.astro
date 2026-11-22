@@ -1,0 +1,14 @@
+---
+interface Props {
+  index: string;
+  title: string;
+  lead?: string;
+}
+const { index, title, lead } = Astro.props;
+---
+
+<header class="section-head" data-reveal>
+  <span class="section-head__index">{index}</span>
+  <h2 class="section-head__title">{title}</h2>
+  {lead && <p class="section-head__lead">{lead}</p>}
+</header>

@@ -1,0 +1,35 @@
+---
+import Icon from './Icon.astro';
+import { type Lang } from '../data/resume';
+import { ui, pagePath } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = ui[lang];
+const other: Lang = lang === 'ru' ? 'en' : 'ru';
+const items = ['about', 'experience', 'skills', 'projects', 'contact'] as const;
+---
+
+<header class="nav" data-nav>
+  <div class="nav__inner">
+    <a class="nav__logo" href="#top" aria-label={t.hello}>
+      <span class="nav__mark">AD</span>
+    </a>
+    <nav class="nav__links" aria-label="Sections">
+      {items.map((id) => <a href={`#${id}`} data-nav-link={id}>{t.nav[id]}</a>)}
+    </nav>
+    <div class="nav__actions">
+      <a class="nav__lang" href={pagePath[other]} hreflang={other} lang={other} aria-label={t.langSwitch}>
+        <span class:list={{ 'is-active': lang === 'ru' }}>RU</span>
+        <span class:list={{ 'is-active': lang === 'en' }}>EN</span>
+      </a>
+      <button class="icon-btn" type="button" data-theme-toggle aria-label={t.theme} title={t.theme}>
+        <Icon name="sun" class="icon-sun" size={18} />
+        <Icon name="moon" class="icon-moon" size={18} />
+      </button>
+    </div>
+  </div>
+  <div class="nav__progress" data-progress></div>
+</header>

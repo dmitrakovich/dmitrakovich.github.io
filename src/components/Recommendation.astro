@@ -1,0 +1,49 @@
+---
+import Icon from './Icon.astro';
+import SectionHead from './SectionHead.astro';
+import { education, profile, recommendation, type Lang } from '../data/resume';
+import { ui } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = ui[lang];
+---
+
+<section class="section" id="recommendation">
+  <div class="container">
+    <SectionHead index="05" title={t.sections.recommendation} />
+    <div class="rec-grid">
+      <figure class="quote glow-card" data-reveal>
+        <span class="quote__label"><Icon name="star" size={16} />{t.recommendation}</span>
+        <Icon name="quote" size={44} class="quote__mark" />
+        <blockquote class="quote__text" lang={lang === 'ru' ? 'ru' : 'en'}>
+          <p>{recommendation.quote[lang]}</p>
+        </blockquote>
+        <ul class="quote__points">
+          {recommendation.points[lang].map((p) => <li>{p}</li>)}
+        </ul>
+        <figcaption class="quote__author">
+          <span class="quote__avatar" aria-hidden="true">TS</span>
+          <span>
+            <strong>{recommendation.author}</strong>
+            <span class="quote__role">{recommendation.role[lang]}</span>
+          </span>
+          <a class="quote__more" href={profile.links.recommendations} target="_blank" rel="noopener">
+            {t.readOnLinkedIn}
+            <Icon name="arrow" size={16} />
+          </a>
+        </figcaption>
+      </figure>
+
+      <article class="edu glow-card" data-reveal style="--i:1">
+        <span class="quote__label"><Icon name="cap" size={16} />{t.education}</span>
+        <p class="edu__years">{education.start.slice(0, 4)} — {education.end.slice(0, 4)}</p>
+        <h3 class="edu__school">{education.school[lang]}</h3>
+        <p class="edu__degree">{education.degree[lang]}</p>
+        <p class="edu__city"><Icon name="pin" size={14} />{education.city[lang]}</p>
+      </article>
+    </div>
+  </div>
+</section>

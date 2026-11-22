@@ -1,0 +1,33 @@
+---
+import SectionHead from './SectionHead.astro';
+import { skills, type Lang } from '../data/resume';
+import { ui } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = ui[lang];
+---
+
+<section class="section" id="skills">
+  <div class="container">
+    <SectionHead index="03" title={t.sections.skills} />
+    <div class="skills">
+      {
+        skills.map((group, gi) => (
+          <div class="skill-group glow-card" data-reveal style={`--i:${gi}`}>
+            <h3 class="skill-group__title">{group.title[lang]}</h3>
+            <ul class="chips">
+              {group.items.map((item, i) => (
+                <li class="chip" style={`--d:${i}`}>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

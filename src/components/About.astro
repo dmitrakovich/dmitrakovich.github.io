@@ -1,0 +1,42 @@
+---
+import Icon from './Icon.astro';
+import SectionHead from './SectionHead.astro';
+import { about, strengths, type Lang } from '../data/resume';
+import { ui } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = ui[lang];
+---
+
+<section class="section" id="about">
+  <div class="container">
+    <SectionHead index="01" title={t.sections.about} />
+    <div class="about">
+      {
+        about[lang].map((p, i) => (
+          <p class:list={['about__p', { 'about__p--lead': i === 0 }]} data-reveal style={`--i:${i}`}>
+            {p}
+          </p>
+        ))
+      }
+    </div>
+
+    <h3 class="subhead" data-reveal>{t.sections.strengths}</h3>
+    <ul class="cards cards--4">
+      {
+        strengths.map((s, i) => (
+          <li class="card glow-card" data-reveal style={`--i:${i % 4}`}>
+            <span class="card__icon">
+              <Icon name={s.icon} size={22} />
+            </span>
+            <h4 class="card__title">{s.title[lang]}</h4>
+            <p class="card__text">{s.text[lang]}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

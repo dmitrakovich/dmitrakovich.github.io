@@ -1,0 +1,116 @@
+---
+import { Code } from 'astro:components';
+import Icon from './Icon.astro';
+import { profile, experience, type Lang } from '../data/resume';
+import { ui } from '../i18n/ui';
+import { yearsSince, yearsLabel } from '../lib/dates';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = ui[lang];
+
+const careerYears = yearsSince(profile.careerStart);
+const leadYears = Math.max(1, yearsSince(profile.leadStart));
+
+const code = `<?php
+
+final class AndreyDmitrakovich extends Engineer
+{
+    use LeadsTeams, ReviewsCode;
+
+    public function ship(Feature $f): Release
+    {
+        return $this->team
+            ->review($f)
+            ->test()
+            ->deploy(safely: true);
+    }
+}`;
+---
+
+<section class="hero" id="top">
+  <div class="container hero__grid">
+    <div class="hero__text">
+      <p class="hero__status" data-hero-item style="--i:0">
+        <span class="pulse-dot" aria-hidden="true"></span>
+        {profile.current[lang]}
+        <span class="hero__sep" aria-hidden="true">·</span>
+        <span class="hero__loc"><Icon name="pin" size={14} />{profile.location[lang]}</span>
+      </p>
+
+      <h1 class="hero__title">
+        <span class="hero__hello" data-hero-item style="--i:1">{t.hello}</span>
+        <span class="hero__name" data-hero-item style="--i:2">{profile.firstName[lang]}</span>
+        <span class="hero__name hero__name--grad" data-hero-item style="--i:3">{profile.lastName[lang]}</span>
+      </h1>
+
+      <p class="hero__role" data-hero-item style="--i:4">
+        <span class="hero__prompt" aria-hidden="true">&gt;</span>
+        <span class="sr-only">{profile.role}</span>
+        <span class="hero__typed" aria-hidden="true" data-rotate={JSON.stringify(profile.rotating[lang])}>{profile.role}</span><span class="caret" aria-hidden="true"></span>
+      </p>
+
+      <p class="hero__tagline" data-hero-item style="--i:5">{profile.tagline[lang]}</p>
+
+      <div class="hero__cta" data-hero-item style="--i:6">
+        <a class="btn btn--primary" href="#contact">
+          {t.contact}
+          <Icon name="arrow" size={18} />
+        </a>
+        <a class="btn btn--ghost" href={profile.links.github} target="_blank" rel="noopener">
+          <Icon name="github" size={18} />
+          GitHub
+        </a>
+        <button class="btn btn--ghost" type="button" data-print>
+          <Icon name="download" size={18} />
+          {t.pdf}
+        </button>
+      </div>
+
+      <dl class="stats" data-hero-item style="--i:7">
+        <div class="stat">
+          <dt class="stat__value"><span data-years-since={profile.careerStart}>{careerYears}</span>+</dt>
+          <dd class="stat__label" data-years-label="career" data-since={profile.careerStart}>
+            {yearsLabel(careerYears, lang, 'career')}
+          </dd>
+        </div>
+        <div class="stat">
+          <dt class="stat__value">{experience.length}</dt>
+          <dd class="stat__label">{t.companies}</dd>
+        </div>
+        <div class="stat">
+          <dt class="stat__value"><span data-years-since={profile.leadStart} data-min="1">{leadYears}</span>+</dt>
+          <dd class="stat__label" data-years-label="lead" data-since={profile.leadStart}>
+            {yearsLabel(leadYears, lang, 'lead')}
+          </dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="hero__visual" data-hero-item style="--i:3">
+      <div class="portrait" data-parallax="0.6">
+        <div class="portrait__ring" aria-hidden="true"></div>
+        <img
+          class="portrait__img"
+          src={profile.photo}
+          alt={profile.name[lang]}
+          width="460"
+          height="460"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </div>
+      <div class="code-window" data-parallax="1.2">
+        <div class="code-window__bar" aria-hidden="true">
+          <span class="dot dot--r"></span><span class="dot dot--y"></span><span class="dot dot--g"></span>
+          <span class="code-window__file">AndreyDmitrakovich.php</span>
+        </div>
+        <div class="code-window__body" data-typing>
+          <Code code={code} lang="php" theme="css-variables" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

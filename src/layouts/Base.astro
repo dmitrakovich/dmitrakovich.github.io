@@ -1,0 +1,89 @@
+---
+import '@fontsource-variable/inter';
+import '@fontsource-variable/jetbrains-mono';
+import '@fontsource-variable/unbounded';
+import '../styles/global.css';
+import { profile, experience, type Lang } from '../data/resume';
+import { ui, pagePath } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = ui[lang];
+const site = Astro.site!;
+const canonical = new URL(pagePath[lang], site).href;
+const photo = new URL(profile.photo, site).href;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.name[lang],
+  alternateName: profile.name[lang === 'ru' ? 'en' : 'ru'],
+  jobTitle: profile.role,
+  image: photo,
+  url: canonical,
+  address: { '@type': 'PostalAddress', addressLocality: lang === 'ru' ? 'Минск' : 'Minsk', addressCountry: 'BY' },
+  worksFor: { '@type': 'Organization', name: experience[0].name[lang] },
+  alumniOf: { '@type': 'CollegeOrUniversity', name: 'Polessky State University' },
+  sameAs: [profile.links.linkedin, profile.links.github],
+  knowsAbout: ['PHP', 'Laravel', 'Software architecture', 'Team leadership', 'Redis', 'ClickHouse', 'Docker'],
+};
+---
+
+<!doctype html>
+<html lang={t.htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{t.title}</title>
+    <meta name="description" content={t.description} />
+    <meta name="author" content={profile.name[lang]} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="ru" href={new URL(pagePath.ru, site).href} />
+    <link rel="alternate" hreflang="en" href={new URL(pagePath.en, site).href} />
+    <link rel="alternate" hreflang="x-default" href={new URL(pagePath.ru, site).href} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/avatar.jpg" />
+    <meta name="theme-color" content="#09090d" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f7f6f2" media="(prefers-color-scheme: light)" />
+
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content={t.title} />
+    <meta property="og:description" content={t.description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={photo} />
+    <meta property="og:locale" content={t.ogLocale} />
+    <meta property="profile:first_name" content={profile.firstName[lang]} />
+    <meta property="profile:last_name" content={profile.lastName[lang]} />
+    <meta name="twitter:card" content="summary" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    <script is:inline>
+      (() => {
+        const d = document.documentElement;
+        d.classList.add('js');
+        try {
+          const t = localStorage.getItem('theme');
+          if (t === 'light' || t === 'dark') d.dataset.theme = t;
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t.skip}</a>
+    <div class="backdrop" aria-hidden="true">
+      <div class="backdrop__grid"></div>
+      <div class="backdrop__blob backdrop__blob--1"></div>
+      <div class="backdrop__blob backdrop__blob--2"></div>
+      <div class="backdrop__blob backdrop__blob--3"></div>
+      <div class="backdrop__spot"></div>
+      <div class="backdrop__noise"></div>
+    </div>
+    <slot />
+    <script>
+      import '../scripts/main.ts';
+    </script>
+  </body>
+</html>

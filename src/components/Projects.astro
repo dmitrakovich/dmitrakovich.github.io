@@ -1,0 +1,41 @@
+---
+import Icon from './Icon.astro';
+import SectionHead from './SectionHead.astro';
+import { projects, type Lang } from '../data/resume';
+import { ui } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = ui[lang];
+---
+
+<section class="section" id="projects">
+  <div class="container">
+    <SectionHead index="04" title={t.sections.projects} lead={t.projectsLead} />
+    <ul class="cards cards--3">
+      {
+        projects.map((p, i) => (
+          <li class="project glow-card" data-reveal style={`--i:${i}`}>
+            <a class="project__link" href={p.href} target="_blank" rel="noopener">
+              <span class="project__top">
+                <Icon name="github" size={20} />
+                <Icon name="arrow" size={18} class="project__arrow" />
+              </span>
+              <span class="project__name">{p.name}</span>
+              <span class="project__text">{p.text[lang]}</span>
+              <span class="project__meta">
+                <span class="lang-dot" aria-hidden="true" />
+                {p.lang}
+                {p.tags.map((tag) => (
+                  <span class="project__tag">{tag}</span>
+                ))}
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

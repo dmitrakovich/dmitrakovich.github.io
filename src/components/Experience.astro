@@ -1,0 +1,88 @@
+---
+import SectionHead from './SectionHead.astro';
+import { experience, type Lang } from '../data/resume';
+import { ui } from '../i18n/ui';
+import { formatDuration, formatPeriod, monthsBetween } from '../lib/dates';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = ui[lang];
+const VISIBLE = 4;
+---
+
+<section class="section" id="experience">
+  <div class="container">
+    <SectionHead index="02" title={t.sections.experience} />
+
+    <div class="timeline" data-timeline>
+      <div class="timeline__rail" aria-hidden="true"><div class="timeline__fill"></div></div>
+      <ol class="timeline__list">
+        {
+          experience.map((company) => {
+            const first = company.roles[company.roles.length - 1];
+            const last = company.roles[0];
+            return (
+              <li class="timeline__item">
+                <span class:list={['timeline__node', { 'is-current': last.end === null }]} aria-hidden="true" />
+                <header class="company" data-reveal>
+                  <h3 class="company__name">{company.name[lang]}</h3>
+                  <p class="company__meta">
+                    {company.note && <span>{company.note[lang]}</span>}
+                    <span>{company.format[lang]}</span>
+                    <span data-duration data-start={first.start} data-end={last.end ?? ''}>
+                      {formatDuration(monthsBetween(first.start, last.end), lang)}
+                    </span>
+                  </p>
+                </header>
+
+                {company.roles.map((role) => {
+                  const items = role.highlights[lang];
+                  const extra = items.length - VISIBLE;
+                  return (
+                    <article class="role glow-card" data-reveal>
+                      <div class="role__head">
+                        <h4 class="role__title">{role.title}</h4>
+                        <p class="role__period">
+                          <span class="role__dates">{formatPeriod(role.start, role.end, lang)}</span>
+                          <span class="role__dur" data-duration data-start={role.start} data-end={role.end ?? ''}>
+                            {formatDuration(monthsBetween(role.start, role.end), lang)}
+                          </span>
+                          {role.location && <span class="role__loc">{role.location[lang]}</span>}
+                        </p>
+                      </div>
+                      {role.summary && <p class="role__summary">{role.summary[lang]}</p>}
+                      <ul class="role__list" data-collapsible>
+                        {items.map((h, i) => (
+                          <li class:list={{ 'is-extra': i >= VISIBLE && extra > 1 }}>{h}</li>
+                        ))}
+                      </ul>
+                      {extra > 1 && (
+                        <button
+                          class="role__toggle"
+                          type="button"
+                          data-toggle-more
+                          aria-expanded="false"
+                          data-more={t.moreHighlights(extra)}
+                          data-less={t.lessHighlights}
+                        >
+                          {t.moreHighlights(extra)}
+                        </button>
+                      )}
+                      <ul class="tags" aria-label="Stack">
+                        {role.stack.map((s) => (
+                          <li class="tag">{s}</li>
+                        ))}
+                      </ul>
+                    </article>
+                  );
+                })}
+              </li>
+            );
+          })
+        }
+      </ol>
+    </div>
+  </div>
+</section>

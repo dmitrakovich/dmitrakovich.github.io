@@ -1,0 +1,17 @@
+---
+import { marquee } from '../data/resume';
+---
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    {
+      [0, 1].map(() => (
+        <ul class="marquee__group">
+          {marquee.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      ))
+    }
+  </div>
+</div>

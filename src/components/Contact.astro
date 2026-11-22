@@ -1,0 +1,50 @@
+---
+import Icon from './Icon.astro';
+import { profile, type Lang } from '../data/resume';
+import { ui } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = ui[lang];
+const year = new Date().getFullYear();
+---
+
+<section class="section contact" id="contact">
+  <div class="container">
+    <div class="contact__box" data-reveal>
+      <span class="section-head__index">06 · {t.sections.contact}</span>
+      <h2 class="contact__title screen-only">
+        {t.contactTitle[0]} <span class="grad-text">{t.contactTitle[1]}</span>
+      </h2>
+      <h2 class="contact__title print-only">{t.sections.contact}</h2>
+      <p class="contact__text">{t.contactText}</p>
+      <div class="contact__links">
+        <a class="btn btn--primary btn--lg" href={profile.links.linkedin} target="_blank" rel="noopener">
+          <Icon name="linkedin" size={20} />
+          {t.writeLinkedIn}
+        </a>
+        <a class="btn btn--ghost btn--lg" href={profile.links.github} target="_blank" rel="noopener">
+          <Icon name="github" size={20} />
+          github.com/dmitrakovich
+        </a>
+      </div>
+      <ul class="print-only print-contacts">
+        <li>LinkedIn: linkedin.com/in/andrey-dmitrakovich</li>
+        <li>GitHub: github.com/dmitrakovich</li>
+        <li>dmitrakovich.github.io</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <span>© {year} {profile.name[lang]}</span>
+    <span>
+      {t.footer}
+      <a href="https://github.com/dmitrakovich/dmitrakovich.github.io" target="_blank" rel="noopener">{t.footerLink}</a>
+    </span>
+  </div>
+</footer>

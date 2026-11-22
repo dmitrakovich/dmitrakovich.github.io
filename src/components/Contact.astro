@@ -21,16 +21,21 @@ const year = new Date().getFullYear();
       <h2 class="contact__title print-only">{t.sections.contact}</h2>
       <p class="contact__text">{t.contactText}</p>
       <div class="contact__links">
-        <a class="btn btn--primary btn--lg" href={profile.links.linkedin} target="_blank" rel="noopener">
+        <a class="btn btn--primary btn--lg" href={profile.links.telegram} target="_blank" rel="noopener">
+          <Icon name="telegram" size={20} />
+          {t.writeTelegram}
+        </a>
+        <a class="btn btn--ghost btn--lg" href={profile.links.linkedin} target="_blank" rel="noopener">
           <Icon name="linkedin" size={20} />
-          {t.writeLinkedIn}
+          LinkedIn
         </a>
         <a class="btn btn--ghost btn--lg" href={profile.links.github} target="_blank" rel="noopener">
           <Icon name="github" size={20} />
-          github.com/dmitrakovich
+          GitHub
         </a>
       </div>
       <ul class="print-only print-contacts">
+        <li>Telegram: {profile.links.telegramHandle}</li>
         <li>LinkedIn: linkedin.com/in/andrey-dmitrakovich</li>
         <li>GitHub: github.com/dmitrakovich</li>
         <li>dmitrakovich.github.io</li>
@@ -43,8 +48,7 @@ const year = new Date().getFullYear();
   <div class="container footer__inner">
     <span>© {year} {profile.name[lang]}</span>
     <span>
-      {t.footer}
-      <a href="https://github.com/dmitrakovich/dmitrakovich.github.io" target="_blank" rel="noopener">{t.footerLink}</a>
+      {t.footer}{' '}<a href="https://github.com/dmitrakovich/dmitrakovich.github.io" target="_blank" rel="noopener">{t.footerLink}</a>
     </span>
   </div>
 </footer>

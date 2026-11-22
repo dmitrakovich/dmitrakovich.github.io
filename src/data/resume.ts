@@ -43,6 +43,8 @@ export const profile = {
     en: ['Team Lead', 'PHP · Laravel', 'backend architecture', 'integrations & APIs', 'AI in engineering'],
   } as L<string[]>,
   links: {
+    telegram: 'https://t.me/andrey96',
+    telegramHandle: '@andrey96',
     linkedin: 'https://www.linkedin.com/in/andrey-dmitrakovich/',
     github: 'https://github.com/dmitrakovich',
     recommendations: 'https://www.linkedin.com/in/andrey-dmitrakovich/details/recommendations/',
